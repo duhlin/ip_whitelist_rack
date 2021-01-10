@@ -5,7 +5,8 @@ ENV BUNDLE_FROZEN=1
 
 WORKDIR /usr/src/app
 
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ip_whitelist_rack.gemspec ./
+COPY lib/ip_whitelist_rack/version.rb lib/ip_whitelist_rack/version.rb
 RUN bundle install
 
 COPY . .

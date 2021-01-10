@@ -15,5 +15,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: duhlin/ip_whitelist_rack
+          repository: duhlin/ip_whitelist_rack/rack_server
           tag_with_ref: true

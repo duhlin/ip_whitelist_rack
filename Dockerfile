@@ -12,4 +12,8 @@ RUN bundle install
 COPY . .
 
 USER 1001
-CMD ["bundle", "exec", "rackup", "ip_whitelist_rack.ru"]
+
+# this image expects the traefik dynamic configuration file to be in yaml format
+# this file must be named dynamic_conf.yml
+VOLUME /traefik
+CMD ["bundle", "exec", "rackup", "ip_whitelist_rack.ru", "--host", "0.0.0.0"]

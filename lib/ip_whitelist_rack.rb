@@ -4,7 +4,7 @@ require_relative "ip_whitelist_rack/version"
 
 require "logger"
 require "rack"
-require 'yaml'
+require "yaml"
 
 module IpWhitelistRack
   # main class executed using rackup
@@ -18,26 +18,26 @@ module IpWhitelistRack
     end
 
     def traefik_filename
-      ENV.fetch("TRAEFIK_DYNAMIC_CONF_YML", '/traefik/dynamic_conf.yml')
+      ENV.fetch("TRAEFIK_DYNAMIC_CONF_YML", "/traefik/dynamic_conf.yml")
     end
 
     def traefik_middleware_name
-      @middleware_name ||= ENV.fetch('TRAEFIK_MIDDLEWARE_NAME', 'whiteList')
+      @traefik_middleware_name ||= ENV.fetch("TRAEFIK_MIDDLEWARE_NAME", "whiteList")
     end
 
     def load_traefik
-      @traefik ||= YAML.load(File.read(traefik_filename))
+      @load_traefik ||= YAML.safe_load(File.read(traefik_filename))
     end
 
     def traefik_ip_list
-      load_traefik.fetch('http')
-        .fetch('middlewares')
-        .fetch(traefik_middleware_name)
-        .fetch('ipWhiteList')
-        .fetch('sourceRange')
+      load_traefik.fetch("http")
+                  .fetch("middlewares")
+                  .fetch(traefik_middleware_name)
+                  .fetch("ipWhiteList")
+                  .fetch("sourceRange")
     end
 
-    def save_traefik()
+    def save_traefik
       logger.debug "saving config: #{@traefik}"
       File.write(traefik_filename, YAML.dump(@traefik))
     end
@@ -65,7 +65,7 @@ module IpWhitelistRack
     end
 
     def call(env)
-      source_ip = env["HTTP_X_FORWARDED_FOR"] || env["REMOTE_ADDR"]
+      source_ip = env["HTTP_X_FORWARDED_FOR"]
       logger.info "Whitelisting #{source_ip}"
       logger.debug "env: #{env}"
 

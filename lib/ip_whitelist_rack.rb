@@ -26,7 +26,7 @@ module IpWhitelistRack
     end
 
     def load_traefik
-      @load_traefik ||= YAML.safe_load(File.read(traefik_filename))
+      @traefik ||= YAML.safe_load(File.read(traefik_filename))
     end
 
     def traefik_ip_list

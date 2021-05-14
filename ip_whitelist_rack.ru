@@ -2,5 +2,4 @@
 
 require "ip_whitelist_rack"
 
-use Rack::ShowExceptions
 run IpWhitelistRack::IpWhitelistRack.new

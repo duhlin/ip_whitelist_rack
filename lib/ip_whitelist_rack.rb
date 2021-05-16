@@ -25,21 +25,21 @@ module IpWhitelistRack
       @traefik_middleware_name ||= ENV.fetch("TRAEFIK_MIDDLEWARE_NAME", "whiteList")
     end
 
-    def load_traefik
+    def traefik
       @traefik ||= YAML.safe_load(File.read(traefik_filename))
     end
 
     def traefik_ip_list
-      load_traefik.fetch("http")
-                  .fetch("middlewares")
-                  .fetch(traefik_middleware_name)
-                  .fetch("ipWhiteList")
-                  .fetch("sourceRange")
+      traefik.fetch("http")
+             .fetch("middlewares")
+             .fetch(traefik_middleware_name)
+             .fetch("ipWhiteList")
+             .fetch("sourceRange")
     end
 
     def save_traefik
-      logger.debug "saving config: #{@traefik}"
-      File.write(traefik_filename, YAML.dump(@traefik))
+      logger.debug "saving config: #{traefik}"
+      File.write(traefik_filename, YAML.dump(traefik))
     end
 
     def add_to_whitelist(ip)
